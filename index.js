@@ -14,6 +14,12 @@ const client = new OAuth2Client(
   "537603122600-eie1b52uijo6b62hv6k9vbem2hhto9bj.apps.googleusercontent.com"
 );
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
