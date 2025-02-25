@@ -52,6 +52,13 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cors());
+app.use((req, res, next) => {
+  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
+  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
+  next();
+});
+
 const allowedOrigins = [
   "http://localhost:5173", // Local development
   "https://findyourspace.vercel.app", // Deployed frontend
