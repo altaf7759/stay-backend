@@ -14,6 +14,12 @@ const client = new OAuth2Client(
   "537603122600-eie1b52uijo6b62hv6k9vbem2hhto9bj.apps.googleusercontent.com"
 );
 
+app.use(express.static(path.join(__dirname, "build")));
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
+
 app.use("/uploads", express.static("uploads"));
 
 const storage = multer.diskStorage({
@@ -45,12 +51,23 @@ mongoose
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(cors());
-app.use((req, res, next) => {
-  res.setHeader("Cross-Origin-Opener-Policy", "unsafe-none");
-  res.setHeader("Cross-Origin-Embedder-Policy", "unsafe-none");
-  next();
-});
+const allowedOrigins = [
+  "http://localhost:5173", // Local development
+  "https://findyourspace.vercel.app", // Deployed frontend
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true, // Allows cookies if needed
+  })
+);
 
 // Google login route
 app.post("/login", async (req, res) => {
