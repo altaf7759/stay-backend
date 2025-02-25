@@ -2,6 +2,7 @@ require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
+const path = require("path");
 const { OAuth2Client } = require("google-auth-library");
 const multer = require("multer");
 const cors = require("cors");
