@@ -55,7 +55,7 @@ app.use((req, res, next) => {
 
 const allowedOrigins = [
   "http://localhost:5173", // Local development
-  "https://pleasant-comfort-stay-backend.up.railway.app", // Deployed frontend
+  "https://findmyspace.vercel.app", // Deployed frontend
 ];
 
 app.use(
